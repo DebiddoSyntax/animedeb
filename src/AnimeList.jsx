@@ -26,13 +26,16 @@ const AnimeList = () => {
   const animePerPage = 20;
   const [totalAnime, setTotalAnime] = useState(0)
 
+
+  const apiKey = process.env.REACT_APP_API_KEY;
+
   useEffect(() => {
     const fetchData = async () => {
       const url = `https://anime-db.p.rapidapi.com/anime?page=${currentPage}&search=${keyword}&size=${animePerPage}&sortOrder=asc`;
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': `${process.env.REACT_APP_API_KEY}`,
+          'x-rapidapi-key': `${apiKey}`,
           'x-rapidapi-host': 'anime-db.p.rapidapi.com'
         }
       };
@@ -53,7 +56,7 @@ const AnimeList = () => {
     };
 
     fetchData();
-  }, [currentPage, keyword]);
+  }, [currentPage, keyword, apiKey]);
 
   
 
@@ -64,7 +67,6 @@ const AnimeList = () => {
 
   const totalPage = totalAnime ? Math.ceil(totalAnime.totalData/animePerPage) : 1;
   
-  console.log(process.env.REACT_APP_API_KEY)
 
   
   const debounce = (fn, delay) => {
