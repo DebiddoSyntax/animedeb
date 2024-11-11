@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { FiSearch } from "react-icons/fi";
 import {AnimeprofileContext} from './context/ProfileContext'
 import { Link } from 'react-router-dom';
@@ -84,13 +84,18 @@ const AnimeList = () => {
     };
   };
 
-  const debouncedSearch = useCallback(
-    debounce((value) => setKeyword(value), 3000),
-    []
-  );
 
-  // if (loading) return <p className="text-white justify-center text-center mt-10">Loading...</p>;
-  // if (error) return <p className="text-red-500 justify-center text-center mt-10">{error}</p>;
+  const debouncedSearch = useMemo(()=> debounce((value) => setKeyword(value), 3000)
+  ,[]);
+
+  useEffect(() => {
+    return () => {
+      if (debouncedSearch.cancel) {
+        debouncedSearch.cancel();
+      }
+    };
+  }, [debouncedSearch]);
+
 
   return (
     <div>
