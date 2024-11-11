@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        Chikakuta:["Chokokutai", "system-ui"]
+      }
+    },
   },
   plugins: [],
 }

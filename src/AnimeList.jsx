@@ -9,9 +9,11 @@ const AnimeCards = ({ data }) => {
   
   return (
       <Link to="/profile" onClick={()=> setProfile(data)}> 
-        <div className='w-auto py-5' >
-          <img className='w-full h-52 md:h-60 lg:h-72' src={data.image} alt={data.title} />
-          <h3 className='py-3 font-semibold text-lg md:text-xl'>{data.title}</h3>
+        <div className='w-auto py-0'>
+          <div className='h-52 md:h-60 lg:h-72'>
+            <img className='w-full h-full' src={data.image} alt={data.title} />
+          </div>
+          <h3 className='py-3 font-semibold text-lg md:text-lg'>{data.title}</h3>
         </div>
       </Link>
   );
@@ -88,13 +90,7 @@ const AnimeList = () => {
   const debouncedSearch = useMemo(()=> debounce((value) => setKeyword(value), 3000)
   ,[]);
 
-  useEffect(() => {
-    return () => {
-      if (debouncedSearch.cancel) {
-        debouncedSearch.cancel();
-      }
-    };
-  }, [debouncedSearch]);
+
 
 
   return (
@@ -103,7 +99,7 @@ const AnimeList = () => {
       <div className='fixed px-5 md:px-10 lg:px-20 w-full bg-black text-white flex justify-between items-center h-20 border-b-2 border-white'>
         <nav className='flex'>
           <ul className='flex'>
-            <li className='pr-5 py-5 font-oi cursor-pointer' onClick={handleHome}>AnimeDeb</li>
+            <li className='pr-5 py-5 font-Chikakuta text-2xl cursor-pointer' onClick={handleHome}>AnimeDeb</li>
           </ul>
         </nav>
         <div className='flex items-center border-2 py-3 px-3'>
@@ -121,9 +117,11 @@ const AnimeList = () => {
       
 
       {/* Anime Cards Grid */}
-      <div className='text-white px-5 md:px-10 lg:px-20 py-32 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6 items-center justify-center'>
+      <div className='text-white pt-20'>
       {loading && <p className="text-white justify-center text-center mt-10">Loading...</p>}
       {error && <p className="text-red-500 justify-center text-center mt-10">{error}</p>}
+     
+      <div className='text-white px-5 md:px-10 lg:px-20 py-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-6 items-center justify-center'>
         {data.map((anime) => (
           <AnimeCards data={anime} key={anime._id} />
         ))}
@@ -138,7 +136,7 @@ const AnimeList = () => {
         >
           Previous
         </button>
-        <span className="text-white px-4">Page {currentPage}</span>
+        <span className="text-white px-4">Page {currentPage} of {totalPage}</span>
         <button 
           onClick={() => setCurrentPage((prev) => prev + 1)} 
           className="px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50"
@@ -147,6 +145,7 @@ const AnimeList = () => {
           Next
         </button>
       </div>
+    </div>
     </div>
   );
 };
