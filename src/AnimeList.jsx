@@ -26,8 +26,11 @@ const AnimeList = () => {
   const animePerPage = 20;
   const [totalAnime, setTotalAnime] = useState(0)
 
+  
+
 
   const apiKey = process.env.REACT_APP_API_KEY;
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +46,10 @@ const AnimeList = () => {
       setLoading(true);
       try {
         const response = await fetch(url, options);
+        if (response.status === 429) {
+          setError('Rate limit exceeded.');
+          return;
+        }
         const result = await response.json();
         setData(result.data || []);
         setTotalAnime(result.meta)
@@ -82,8 +89,8 @@ const AnimeList = () => {
     []
   );
 
-  if (loading) return <p className="text-white justify-center text-center mt-10">Loading...</p>;
-  if (error) return <p className="text-red-500 justify-center text-center mt-10">{error}</p>;
+  // if (loading) return <p className="text-white justify-center text-center mt-10">Loading...</p>;
+  // if (error) return <p className="text-red-500 justify-center text-center mt-10">{error}</p>;
 
   return (
     <div>
@@ -104,10 +111,14 @@ const AnimeList = () => {
           />
         </div>
       </div>
+
+
       
 
       {/* Anime Cards Grid */}
-      <div className='text-white px-5 md:px-10 lg:px-20 py-32 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6'>
+      <div className='text-white px-5 md:px-10 lg:px-20 py-32 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6 items-center justify-center'>
+      {loading && <p className="text-white justify-center text-center mt-10">Loading...</p>}
+      {error && <p className="text-red-500 justify-center text-center mt-10">{error}</p>}
         {data.map((anime) => (
           <AnimeCards data={anime} key={anime._id} />
         ))}
