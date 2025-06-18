@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
 import AnimeList from './AnimeList';
 import Animeprofile from './Animeprofile';
@@ -12,7 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<AnimeList />} />
-        <Route path="/profile" element={<Animeprofile />} />
+        <Route path="/profile/:id" element={<Animeprofile />} />
       </Routes>
     </Router>
     </div>
